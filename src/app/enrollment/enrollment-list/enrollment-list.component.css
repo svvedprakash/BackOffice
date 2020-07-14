@@ -1,0 +1,11 @@
+table, div {
+    width: 95%;
+}
+
+.rightPadding {
+    padding-right: 2%;
+}
+
+form {
+    padding-top: 2%;
+}

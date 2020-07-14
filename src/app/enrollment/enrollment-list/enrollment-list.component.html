@@ -1,0 +1,63 @@
+<form [formGroup]="entrollementFormGroup" (ngSubmit)="onSubmit()">
+    <div fxLayoutAlign="center center">
+        <mat-form-field class="rightPadding">
+            <mat-select placeholder="Filter Column(s)" formControlName="columnFilter"
+                (selectionChange)="onColumnChange()">
+                <mat-option *ngFor="let filterColumn of filterColumns" value="{{ filterColumn.value }}">
+                    {{filterColumn.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="40%" class="rightPadding">
+            <input matInput type="text" placeholder="Enter Search Text" (keyup)="onSearch($event.target.value)">
+        </mat-form-field>
+        <button  type="submit" mat-raised-button color="primary">Retry</button>
+    </div>
+    
+    <section fxLayout="column" fxLayoutAlign="center center">
+        <table mat-table matSort [dataSource]="enrollments" class="mat-elevation-z8" formArrayName="rows">
+            <ng-container matColumnDef="selector">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let enrollment let index = index;">
+                    <mat-checkbox value="enrollment.partyId" [formControlName]="index"></mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="partyId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Party Id</b></th>
+                <td mat-cell *matCellDef="let enrollment">{{ enrollment.partyId }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>First Name</b></th>
+                <td mat-cell *matCellDef="let enrollment">{{ enrollment.firstName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Last Name</b></th>
+                <td mat-cell *matCellDef="let enrollment">{{ enrollment.lastName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="clearingType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Clearing Type</b></th>
+                <td mat-cell *matCellDef="let enrollment">{{ enrollment.clearingType }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Created Date</b></th>
+                <td mat-cell *matCellDef="let enrollment">{{ enrollment.createdDate | date }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastUpdateDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>Last Update Date</b></th>
+                <td mat-cell *matCellDef="let enrollment">{{ enrollment.lastUpdateDate | date }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="enrollmentColumns"></tr>
+            <tr mat-row *matRowDef="let row; let i = index; columns: enrollmentColumns;"></tr>
+        </table>
+        <div>
+            <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50, 100]">
+            </mat-paginator>
+        </div>
+    </section>    
+</form>
